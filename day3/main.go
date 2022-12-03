@@ -4,7 +4,6 @@ package day3
 
 import (
 	"bufio"
-	"fmt"
 	"sort"
 	"strings"
 	"unicode"
@@ -16,13 +15,8 @@ func findCommonLetters(s1, s2 []byte) []byte {
 	sort.Slice(s1, func(i, j int) bool { return s1[i] > s1[j] })
 	sort.Slice(s2, func(i, j int) bool { return s2[i] > s2[j] })
 
-	t1, t2 := 0, 0
-
-	fmt.Println(s1, s2)
 	for i := range s1 {
-		fmt.Println("t", t1, t2)
 		for j := range s2 {
-			fmt.Println("iteration: ", string(s1[i]), string(s2[j]))
 			if s1[i] == s2[j] {
 				return []byte{s1[i]}
 			}
@@ -33,7 +27,6 @@ func findCommonLetters(s1, s2 []byte) []byte {
 }
 
 func letterToPoints(letter byte) int {
-
 	isLowerCase := func(letter byte) bool {
 		return letter == byte(unicode.ToLower(rune(letter)))
 	}
@@ -48,6 +41,7 @@ func letterToPoints(letter byte) int {
 			return points + 26
 		}
 	}
+
 	return -1
 }
 
