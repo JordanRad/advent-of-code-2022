@@ -1,5 +1,7 @@
 package day2
 
+// TASK: https://adventofcode.com/2022/day/2
+
 import (
 	"bufio"
 	"errors"
@@ -106,7 +108,7 @@ func LevelOne(scanner *bufio.Scanner) int {
 	return p2.Points
 }
 
-// Counts only for level 2 of the task
+// LEVEL 2
 func getOpponentOption(option string) Option {
 	if option == "A" {
 		return Option{
@@ -132,7 +134,6 @@ func getOpponentOption(option string) Option {
 	}
 }
 
-// Counts only for level 2 of the task
 func getMyOption(option string) Option {
 	if option == "X" {
 		return Option{
@@ -167,7 +168,6 @@ func indexOf(arr []int, val int) int {
 			return i
 		}
 	}
-
 	return -1
 }
 
