@@ -24,5 +24,5 @@ func ScanFile(filePath string) *bufio.Scanner {
 }
 
 func main() {
-	fmt.Println(day3.LevelOne(ScanFile("day3/input.txt")))
+	fmt.Println(day3.PartTwo(ScanFile("day3/input.txt")))
 }
