@@ -1,5 +1,7 @@
 package day4
 
+// TASK: https://adventofcode.com/2022/day/4
+
 import (
 	"bufio"
 	"errors"
@@ -62,37 +64,11 @@ func PartOne(scanner *bufio.Scanner) int {
 		if len(r1) != 2 {
 			panic(errors.New("(2nd Split r1): Invalid input: each row should contain data for EXACLTY 2 elfs"))
 		}
-		// s1Min, err := strconv.Atoi(r1[0])
-		// if err != nil {
-		// 	panic(fmt.Sprintf(r1[0], "is not a proper number"))
-		// }
-		// s1Max, err := strconv.Atoi(r1[1])
-		// if err != nil {
-		// 	panic(fmt.Sprintf(r1[0], "is not a proper number"))
-		// }
 
 		r2 := strings.Split(pair[1], "-")
 		if len(r1) != 2 {
 			panic(errors.New("(2nd Split r2): Invalid input: each row should contain data for EXACLTY 2 elfs"))
 		}
-		// s2Min, err := strconv.Atoi(r2[0])
-		// if err != nil {
-		// 	panic(fmt.Sprintf(r1[0], "is not a proper number"))
-		// }
-		// s2Max, err := strconv.Atoi(r2[1])
-		// if err != nil {
-		// 	panic(fmt.Sprintf(r1[0], "is not a proper number"))
-		// }
-
-		// s1 = Slot{
-		// 	Min: s1Min,
-		// 	Max: s1Max,
-		// }
-
-		// s2 = Slot{
-		// 	Min: s2Min,
-		// 	Max: s2Max,
-		// }
 
 		s1 = buildSlot(r1)
 		s2 = buildSlot(r2)
