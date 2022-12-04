@@ -20,6 +20,15 @@ func overlap(s1, s2 Slot) bool {
 		return true
 	}
 
+	// Uncomment the code below for part two
+	// if s1.Min >= s2.Min && s1.Min <= s2.Max {
+	// 	return true
+	// }
+
+	// if s2.Min >= s1.Min && s2.Min <= s1.Max {
+	// 	return true
+	// }
+
 	return false
 }
 
