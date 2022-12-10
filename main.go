@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/JordanRad/advent-of-code-2022/day4"
+	"github.com/JordanRad/advent-of-code-2022/day5"
 )
 
 func checkErr(e error) {
@@ -24,5 +24,5 @@ func ScanFile(filePath string) *bufio.Scanner {
 }
 
 func main() {
-	fmt.Println(day4.PartOne(ScanFile("day4/input.txt")))
+	fmt.Println(day5.PartOne(ScanFile("day5/input.txt")))
 }
