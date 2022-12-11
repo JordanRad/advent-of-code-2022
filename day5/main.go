@@ -21,19 +21,22 @@ func (inst Instruction) execute(inventory *[]*Stack) error {
 		return errors.New("inventory is empty")
 	}
 
+	// START: INCLUDE ONLY FOR PART ONE
 	for i := 0; i < inst.Amount; i++ {
-		//fmt.Println("b:", (*inventory)[inst.From-1])
 		target := (*inventory)[inst.From-1].Pop()
 		if target == -1 {
 			continue
 		}
-		//fmt.Println("target: ", target, (*inventory)[inst.From-1])
-		//fmt.Println("to b:", (*inventory)[inst.To-1])
 		(*inventory)[inst.To-1].Push(target)
-
-		//fmt.Println((*inventory)[inst.To-1])
-		//fmt.Println("---")
 	}
+
+	// START: INCLUDE ONLY FOR PART TWO
+	// target := (*inventory)[inst.From-1].Entries[:inst.Amount]
+
+	// // Delete this segment from the
+	// // requested stack
+	// (*inventory)[inst.From-1].Entries = (*inventory)[inst.From-1].Entries[inst.Amount:]
+	// (*inventory)[inst.To-1].PushSubStack(target)
 
 	return nil
 }
@@ -83,6 +86,14 @@ func (s *Stack) Push(r rune) {
 	s.Entries = t
 }
 
+// Used for PART TWO
+func (s *Stack) PushSubStack(r []rune) {
+	t := []rune{}
+	t = append(t, r...)
+	t = append(t, s.Entries...)
+	s.Entries = t
+}
+
 func (s *Stack) Pop() rune {
 	if len(s.Entries) == 0 {
 		return -1
@@ -92,18 +103,6 @@ func (s *Stack) Pop() rune {
 	return r
 }
 
-func findStackByID(stacks []*Stack, id int) *Stack {
-	for _, s := range stacks {
-		fmt.Println("findStack: ", len(stacks), s.ID, id)
-		if s.ID == id {
-			fmt.Println("findStack: tutytuy", len(stacks), s.ID, id)
-			return s
-		}
-	}
-	return nil
-}
-
-// isPartFromStack returns if a string represents
 func isPartFromStack(row string) bool {
 	if strings.Contains(row, "[") {
 		return true
@@ -111,28 +110,11 @@ func isPartFromStack(row string) bool {
 	return false
 }
 
-// toStackSegements returns a stack segments by crate
-func toStackSegments(row string) []string {
-	fmt.Println(len(row))
-	// Fill all blank spaces with - symbol (both space and potential letter)
-	t := strings.ReplaceAll(strings.Join(strings.Split(row, " "), " "), " ", "-")
-
-	// Fill placeholder with another marker to see how many stacks are in this segment
-	t = strings.ReplaceAll(strings.ReplaceAll(t, "---", "!"), "-", "")
-
-	// Fill placeholder with another marker to see how many stacks are in this segment
-	t = strings.ReplaceAll(strings.ReplaceAll(strings.ReplaceAll(t, "[", ""), "]", ""), " ", "")
-
-	return strings.Split(t, "")
-}
-
 func parseRow(row string) []string {
 	lenght := (len(row) + 1) / 4
-	fmt.Println(lenght)
 	result := make([]string, lenght)
 	for idx := range result {
 		position := 4*idx + 1
-		fmt.Println(row[position], string(row[position]))
 		//Check if it is space
 		if row[position] == 32 {
 			result[idx] = "!"
@@ -148,16 +130,13 @@ func fillInventory(inventory *[]*Stack, data [][]string) error {
 		return errors.New("inventory is empty")
 	}
 	for _, row := range data {
-		//fmt.Println("f:", idx, row)
 		for idx, cell := range row {
-			//fmt.Println(cell, cell == "!", idx)
 			if cell == "!" {
 				continue
 			}
 
 			r, _ := utf8.DecodeRuneInString(cell)
 			(*inventory)[idx].Entries = append((*inventory)[idx].Entries, r)
-
 		}
 
 	}
@@ -171,10 +150,8 @@ func PartOne(scanner *bufio.Scanner) string {
 
 	for scanner.Scan() {
 		currentRow = scanner.Text()
-		//fmt.Println("Current row: ", currentRow)
+
 		if isPartFromStack(currentRow) {
-			//fmt.Println("Stack row:", toStackSegments(currentRow), "Len -", len(currentRow), len(toStackSegments(currentRow)))
-			fmt.Println("r: ", parseRow(currentRow))
 			initialStructure = append(initialStructure, parseRow((currentRow)))
 		} else {
 			instruction, err := createInstruction(currentRow)
@@ -184,13 +161,12 @@ func PartOne(scanner *bufio.Scanner) string {
 			queue = append(queue, instruction)
 		}
 	}
-	fmt.Println("Struct: ", initialStructure, len(initialStructure))
-
-	inventory := []*Stack{}
 
 	if len(initialStructure) == 0 {
 		return ""
 	}
+
+	inventory := []*Stack{}
 	for idx := range initialStructure[0] {
 		inventory = append(inventory, &Stack{
 			ID:       idx + 1,
@@ -198,19 +174,14 @@ func PartOne(scanner *bufio.Scanner) string {
 			Position: idx,
 		})
 	}
-	fmt.Println("inventory:", inventory)
 
 	fillInventory(&inventory, initialStructure)
-
-	fmt.Println(len(queue), len(initialStructure[0]))
 	for _, instruction := range queue {
 		instruction.execute(&inventory)
 	}
 
-	fmt.Println("------------")
 	s := ""
 	for v := range inventory {
-		//fmt.Println(*inventory[v], string(*&inventory[v].Entries[0]))
 		s += string(*&inventory[v].Entries[0])
 	}
 
