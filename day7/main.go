@@ -99,7 +99,6 @@ func PartOne(scanner *bufio.Scanner) int {
 				panic("list dir error")
 			}
 			dirPath := fmt.Sprintf("%s/%s", currentDirPath, arr[1])
-			fmt.Println("DIR command:", dirPath)
 			if fileSystem.containsDir(dirPath) {
 				fileSystem.addDir(dirPath)
 			}
@@ -110,7 +109,7 @@ func PartOne(scanner *bufio.Scanner) int {
 				fmt.Println("error with list file command: ", row, arr, len(arr))
 				panic("list file error")
 			}
-			fmt.Println("Current dir", currentDirPath, fileSystem)
+
 			_, found := fileSystem[currentDirPath]
 			if !found {
 				panic("non existing dir on list files")
@@ -120,37 +119,26 @@ func PartOne(scanner *bufio.Scanner) int {
 			if err != nil {
 				panic(err)
 			}
-
-			fmt.Println("File size", fileSize, currentDirPath)
-
 			fileSystem[currentDirPath] += fileSize
-
 		}
-		fmt.Println("<----->")
 	}
 
 	for k, _ := range fileSystem {
 		for ki, _ := range fileSystem {
-			if k == ki {
+			if k == ki || ki == "" || k == "" {
 				continue
 			}
-			if strings.Contains(k, ki) {
-				fmt.Println(")))", "k: ", k, "ki:", ki)
+			if strings.Contains(k, ki) && len(k) > len(ki) {
 				fileSystem[ki] += fileSystem[k]
 			}
 
 		}
 	}
 	sumUnder100k := 0
-	for k, v := range fileSystem {
-		fmt.Printf("\n key:%s - %d \n", k, v)
+	for _, v := range fileSystem {
 		if v <= 100_000 {
-			fmt.Println("<=100k: ", v)
 			sumUnder100k += v
 		}
 	}
-
-	fmt.Println(fileSystem)
-
 	return sumUnder100k
 }
